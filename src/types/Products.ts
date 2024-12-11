@@ -5,4 +5,14 @@ export type Product = {
   category: string;
   description: string;
   image: string;
+  quantity?: number;
+};
+
+export type DataForm = {
+  quantity: string;
+  product_id: string;
+};
+
+export type Products = {
+  [key: string]: Product;
 };

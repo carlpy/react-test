@@ -5,7 +5,7 @@ type Data<T> = T | null;
 type ErrorType = Error | null;
 
 interface Params<T> {
-  data: Data<T> | null;
+  data: Data<T>  | null;
   loading: boolean;
   error: Error | null;
 }
