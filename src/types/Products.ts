@@ -5,7 +5,7 @@ export type Product = {
   category: string;
   description: string;
   image: string;
-  quantity?: number;
+  quantity: number;
 };
 
 export type DataForm = {
@@ -16,3 +16,8 @@ export type DataForm = {
 export type Products = {
   [key: string]: Product;
 };
+
+export enum calculatedProperties {
+	Quantity = "quantity",
+	Price = "price"
+}

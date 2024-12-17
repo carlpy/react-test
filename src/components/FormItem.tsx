@@ -1,14 +1,19 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { DataForm, Product, Products } from "../types/Products";
+import dayjs from "dayjs";
 
 type Data<T> = T | null;
 
 interface formProps {
   setFormValue: Dispatch<SetStateAction<Products>>;
-  products: Data<Product[]>; // these are given by the user so it's an array of the data
+  setStartDate: Dispatch<SetStateAction<string>>;
+  data: Data<Product[]>; // these are given by the user so it's an array of the data
+  products: Products;
 }
 
-export default function FormItem({ setFormValue, products }: formProps) {
+export default function FormItem({ setFormValue, setStartDate, data, products }: formProps) {
+  const now = dayjs();
+
   const [formInfo, setFormInfo] = useState<DataForm>({
     quantity: "",
     product_id: "",
@@ -23,19 +28,29 @@ export default function FormItem({ setFormValue, products }: formProps) {
 
   function addItemsToBasket(e: React.FormEvent) {
     e.preventDefault();
-    if (!products) {
+    if (!data) {
       throw new Error("There's no products");
     }
 
-    const productId = formInfo.product_id;
-    const productItem = products[parseInt(productId) - 1];
+    const productId = parseInt(formInfo.product_id) - 1;
+
+    if (data.length < productId) {
+      throw new Error("Invalid index");
+    }
+
+    const productItem = data[productId];
     productItem.quantity = parseInt(formInfo.quantity);
 
     setFormValue((prev) => ({
       ...prev,
       [productId]: productItem,
     }));
+
     setFormInfo({ product_id: "", quantity: "" });
+
+    if (!Object.entries(products).length) {
+      setStartDate(now.format("ddd, MMM D, YYYY h:mm A"));
+    }
   }
 
   return (

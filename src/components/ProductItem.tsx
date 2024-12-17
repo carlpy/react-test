@@ -1,30 +1,22 @@
-import { Products } from "../types/Products";
+import { Product } from "../types/Products";
 
-interface productItemProps {
-  givenProducts: Products;
+interface props {
+  product: Product;
 }
 
-export default function ProductItem({ givenProducts }: productItemProps) {
-  const parsedProducts = Object.entries(givenProducts);
-
+export default function ProductItem({ product }: props) {
   return (
-    <>
-      {parsedProducts.map(([id, product]) => (
-        <div key={id} className="flex justify-between items-center border px-4 py-2 ">
-          <div className="size-32 my-4 mr-6 basis-2/6">
-            <img src={product.image} alt="" className="object-contain w-full h-full" />
-          </div>
+    <tr>
+      <td className="border border-slate-500">{product.quantity}</td>
+      <td className="font-medium border border-slate-500">{product.title}</td>
+      <td className="border border-slate-500">${product.price}</td>
+      <td className="border border-slate-500">
+        ${Math.floor(product.price * (product.quantity ?? 1))}{" "}
+      </td>
 
-          <div className="basis-4/6">
-            <p className="text-lg font-medium mb-4">
-              {product.title} - ({product.id})
-            </p>
-
-            <p>Precio: ${product.price}</p>
-            <p>Cantidad: {product.quantity}</p>
-          </div>
-        </div>
-      ))}
-    </>
+      <td className="size-20 my-4 mr-6">
+        <img src={product.image} alt="" className="object-center  w-full h-full aspect-square" />
+      </td>
+    </tr>
   );
 }
